@@ -1,0 +1,3 @@
+<apex:page applyBodyTag="false" applyHtmlTag="false" showHeader="false" showQuickActionVfHeader="false" sidebar="false" standardStylesheets="false">
+Start_Of_Session_Id{!$Api.Session_ID}End_Of_Session_Id
+</apex:page>
