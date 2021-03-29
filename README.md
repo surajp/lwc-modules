@@ -1,3 +1,3 @@
 # LWC Apex Services
 
-A collection of lwc modules that provide services that developers typically write apex for.
+A collection of lwc modules that aim to eliminate the need for writing apex code for building any LWC.
