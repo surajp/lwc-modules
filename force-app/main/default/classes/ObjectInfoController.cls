@@ -1,29 +1,32 @@
 public inherited sharing class ObjectInfoController {
   @AuraEnabled(cacheable=true)
-  public List<DescribeSObjectResult> getObjectInfo(List<String> sobjectTypes) {
-    return Schema.DescribeSObjects(sobjectTypes);
+  public static String getObjectInfo(List<String> sobjectTypes) {
+    return JSON.serialize(Schema.describeSObjects(sobjectTypes));
   }
 
   @AuraEnabled(cacheable=true)
-  public Map<String, Schema.DescribeFieldResult> getFieldInfo(
-    List<String> fieldNames
-  ) {
+  public static String getFieldInfo(List<String> fieldNames) {
+    List<String> objectNames = new List<String>();
     for (String fieldName : fieldNames) {
       while (fieldName.indexOf('.') > -1) {
         objectNames.add(fieldName.substringBefore('.').replace('__r', '__c'));
         fieldName = fieldName.substringAfter('.');
       }
     }
-    List<DescribeSObjectResult> objectDescribes = ObjectInfoController.getObjectInfo(
+    List<DescribeSObjectResult> objectDescribes = Schema.describeSObjects(
       objectNames
     );
+    Map<String, DescribeSObjectResult> objDescribeMap = new Map<String, DescribeSObjectResult>();
     for (Integer i = 0; i < objectDescribes.size(); i++) {
-      objDescribeMap.put(objName, objectDescribes[i]);
+      objDescribeMap.put(objectNames[i], objectDescribes[i]);
     }
+    Map<String, DescribeFieldResult> fieldDescribeMap = new Map<String, DescribeFieldResult>();
     for (String fieldName : fieldNames) {
-      String immediateParent = fieldName.substringBeforeLast('.')
-        .substringAfterLast('.')
-        .replace('__r', '__c');
+      String immediateParent = fieldName.substringBeforeLast('.');
+      if (immediateParent.indexOf('.') > -1) {
+        immediateParent = immediateParent.substringAfterLast('.');
+      }
+      immediateParent = immediateParent.replace('__r', '__c');
       String lastChild = fieldName.substringAfterLast('.');
       fieldDescribeMap.put(
         fieldName,
@@ -33,5 +36,6 @@ public inherited sharing class ObjectInfoController {
           .getDescribe()
       );
     }
+    return JSON.serialize(fieldDescribeMap);
   }
 }
