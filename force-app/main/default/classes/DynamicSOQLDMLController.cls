@@ -11,21 +11,6 @@ public with sharing class DynamicSOQLDMLController {
   }
 
   /**
-   * Get JavaScript from a Custom Metadata with a given name
-   * @param cmdtName The name of Custom Metadata record to fetch the script from
-   *
-   * @return String
-   **/
-  @AuraEnabled(cacheable=true)
-  public static String getJSFromCmdt(String cmdtName) {
-    JS_Button__mdt[] jsButton = [SELECT Script__c FROM JS_Button__mdt WHERE DeveloperName = :cmdtName LIMIT 1];
-    if (jsButton.size() == 1)
-      return jsButton[0].Script__c;
-    else
-      return '';
-  }
-
-  /**
    * Short Description
    * @param recordId Get the SObject Type given a record Id
    *

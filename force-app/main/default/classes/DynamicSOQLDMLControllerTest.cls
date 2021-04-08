@@ -14,7 +14,6 @@ public with sharing class DynamicSOQLDMLControllerTest {
   @isTest
   public static void testInsert() {
     // we won't test fetching cmdt
-    DynamicSOQLDMLController.getJSFromCmdt('Account');
     String acctString = '[{"attributes":{"type":"Account"},"Name":"Test Account"}]';
     DynamicSOQLDMLController.executeDml('insert', acctString, 'Account');
     System.assertEquals(1, [SELECT ID FROM Account WHERE Name = 'Test Account'].size());

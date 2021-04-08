@@ -1,0 +1,7 @@
+<template>
+  <h3>Describe Fields</h3>
+  <template if:true={hasColumns}>
+    <lightning-datatable key-field="Id" columns={columns} data={data} show-row-number-column hide-checkbox-column>
+    </lightning-datatable>
+  </template>
+</template>
