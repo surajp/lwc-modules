@@ -1,3 +1,10 @@
+/************************************************************
+
+*** @author Suraj Pillai
+*** @date 04/2021
+*** @description Contains bulkified methods for returning object and field descriptions
+*** 
+**/
 public inherited sharing class ObjectInfoController {
   private static Map<Schema.SObjectType, DescribeSObjectResult> objectDescribesMap = new Map<Schema.SObjectType, DescribeSObjectResult>();
 
@@ -9,7 +16,7 @@ public inherited sharing class ObjectInfoController {
   }
 
   private static List<DescribeSObjectResult> getSObjectDescribes(List<Schema.SObjectType> sobjectTypes) {
-    List<Schema.SObjectType> uncachedSObjects = getUncachedSObjectsFromList(sobjectTypes);
+    List<Schema.SObjectType> uncachedSObjects = removeCachedSObjectsFromList(sobjectTypes);
     List<DescribeSObjectResult> retVal = new List<DescribeSObjectResult>();
 
     if (!uncachedSObjects.isEmpty()) {
@@ -21,7 +28,7 @@ public inherited sharing class ObjectInfoController {
     return retVal;
   }
 
-  private static List<Schema.SObjectType> getUncachedSObjectsFromList(List<Schema.SObjectType> sobjectTypes) {
+  private static List<Schema.SObjectType> removeCachedSObjectsFromList(List<Schema.SObjectType> sobjectTypes) {
     List<Schema.SObjectType> uncachedSObjects = new List<Schema.SObjectType>();
     for (Schema.SObjectType sobjectType : sobjectTypes) {
       if (!objectDescribesMap.containsKey(sobjectType)) {
@@ -58,6 +65,11 @@ public inherited sharing class ObjectInfoController {
     return ((SObject) (Type.forName(sobjectName).newInstance())).getSObjectType();
   }
 
+  /****
+   ** @description Returns field describe information for a list of qualified field names (eg: Contact.Account.Name)
+   ** @param fieldNames list of field names
+   ** @return JSON string for list of field describe information for the specified fields
+   **/
   @AuraEnabled(cacheable=true)
   public static String getFieldInfo(List<String> fieldNames) {
     List<String> objectNames = new List<String>();
