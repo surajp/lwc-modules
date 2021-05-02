@@ -14,7 +14,7 @@ export default class SoqlDatatable extends LightningElement {
 
   async connectedCallback() {
     try {
-      const query = "select LastName,Account.Name,Email,Account.Owner.LastName from Contact";
+      const query = "Select LastName,Account.Name,Email,Account.Owner.LastName from Contact";
       this.data = await soql(query);
       this.data = this.data.map((d) => flatten(d, "."));
       this.fieldNames = Object.keys(this.data[0])

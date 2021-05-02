@@ -7,8 +7,7 @@ async function dml(dmlType, records, sObjectType) {
   }
 
   /* If sobjecType is not specified, we try to deduce it from the record id */
-  if (!sObjectType)
-    sObjectType = await getSObjectType({ recordId: records[0].Id });
+  if (!sObjectType) sObjectType = await getSObjectType({ recordId: records[0].Id });
 
   records = records.map((rec) => ({
     ...rec,
@@ -25,7 +24,6 @@ async function dml(dmlType, records, sObjectType) {
     sObjectType
   });
   return results;
-  return null;
 }
 
 const insert = dml.bind(null, "insert");
