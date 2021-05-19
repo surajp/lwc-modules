@@ -1,0 +1,16 @@
+<template>
+  <lightning-layout horizontal-align="spread" multiple-rows pull-to-boundary="small" vertical-align="center">
+    <lightning-layout-item alignment-bump="left" flexibility="auto" size="12" padding="around-small">
+      <lightning-input label="Account Name" required class="acct"></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item alignment-bump="left" flexibility="auto" size="6" padding="around-small">
+      <lightning-input label="Contact Last Name" required class="firstname"></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item alignment-bump="left" flexibility="auto" size="6" padding="around-small">
+      <lightning-input label="Contact First Name" class="lastname"></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item alignment-bump="left" flexibility="auto" size="12" padding="around-small">
+      <lightning-button label="Submit" onclick={handleSave}></lightning-button>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>
