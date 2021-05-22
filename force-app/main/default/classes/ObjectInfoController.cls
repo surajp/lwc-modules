@@ -23,7 +23,9 @@ public inherited sharing class ObjectInfoController {
       getAndCacheSObjectDescribes(uncachedSObjects);
     }
     for (Schema.SObjectType sobjectType : sobjectTypes) {
-      retVal.add(objectDescribesMap.get(sobjectType));
+      if (sobjectType != null) {
+        retVal.add(objectDescribesMap.get(sobjectType));
+      }
     }
     return retVal;
   }
@@ -31,7 +33,7 @@ public inherited sharing class ObjectInfoController {
   private static List<Schema.SObjectType> removeCachedSObjectsFromList(List<Schema.SObjectType> sobjectTypes) {
     List<Schema.SObjectType> uncachedSObjects = new List<Schema.SObjectType>();
     for (Schema.SObjectType sobjectType : sobjectTypes) {
-      if (!objectDescribesMap.containsKey(sobjectType)) {
+      if (sobjectType != null && !objectDescribesMap.containsKey(sobjectType)) {
         uncachedSObjects.add(sobjectType);
       }
     }
@@ -41,7 +43,9 @@ public inherited sharing class ObjectInfoController {
   private static List<DescribeSObjectResult> getAndCacheSObjectDescribes(List<Schema.SObjectType> sObjectTypes) {
     List<Schema.DescribeSObjectResult> sobjectDescribes = new List<Schema.DescribeSObjectResult>();
     for (Schema.SObjectType sobjectType : sobjectTypes) {
-      sobjectDescribes.add(sobjectType.getDescribe());
+      if (sobjectType != null) {
+        sobjectDescribes.add(sobjectType.getDescribe());
+      }
     }
     cacheSObjectDescribes(sobjectDescribes);
     return sobjectDescribes;
@@ -56,13 +60,20 @@ public inherited sharing class ObjectInfoController {
   private static List<Schema.SObjectType> getSObjectTypesFromNames(List<String> sobjectNames) {
     List<Schema.SObjectType> sobjectTypes = new List<Schema.SObjectType>();
     for (String sobjectName : sobjectNames) {
-      sobjectTypes.add(getSObjectTypeFromName(sobjectName));
+      SObjectType theType = getSObjectTypeFromName(sobjectName);
+      if (theType != null) {
+        sobjectTypes.add(theType);
+      }
     }
     return sobjectTypes;
   }
 
   private static Schema.SObjectType getSObjectTypeFromName(String sobjectName) {
-    return ((SObject) (Type.forName(sobjectName).newInstance())).getSObjectType();
+    Type theType = Type.forName(sobjectName);
+    if (theType != null) {
+      return ((SObject) theType.newInstance()).getSObjectType();
+    }
+    return null;
   }
 
   /****

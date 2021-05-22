@@ -1,3 +1,10 @@
+/************************************************************
+
+*** @author Suraj Pillai
+*** @date 05/2021
+*** @description Contains methods for dynamic SOQL and DML
+*** 
+**/
 public with sharing class DynamicSOQLDMLController {
   /**
    * Execute a Soql Query
