@@ -1,7 +1,8 @@
 # LWC Apex Services
 
-A collection of lwc modules that aim to eliminate the need for writing apex code for building any LWC.
-It contains lwc modules for the following operations:
+A collection of LWC modules that aim to eliminate the need for writing Apex code for building any LWC, making it easier for JS devs to build components quicker on the Salesforce platform.
+
+It contains modules for the following operations:
 
 - SOQL
   Import `soqlService` into your lwc and issue queries directly from your lwc!
@@ -67,4 +68,4 @@ It contains lwc modules for the following operations:
     platformEventService.publish('Test_Event__e', payload); //payload would be a json object with the shape of the Platform Event being published
   ```
 
-  Refer to [this](examples/main/default/lwc/platformEventExample/) for an example.
+  [Example](examples/main/default/lwc/platformEventExample/).
