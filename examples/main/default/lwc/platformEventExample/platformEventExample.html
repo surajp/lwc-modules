@@ -1,0 +1,34 @@
+<template>
+  <lightning-card title="Platform Event Example" icon-name="custom:custom13">
+    <div class="slds-m-around_medium">
+      <p>Use the buttons below to publish,subscribe and unsubscribe to a platform event channel!</p>
+      <lightning-input
+        label="Message to Publish"
+        onchange={handleMessageChange}
+        class="slds-m-bottom_small"
+      ></lightning-input>
+      <lightning-button label="Publish Event" onclick={handlePublish}></lightning-button>
+      <lightning-button
+        variant="success"
+        label="Subscribe"
+        title="Subscribe"
+        onclick={handleSubscribe}
+        disabled={isSubscribeDisabled}
+        class="slds-m-left_x-small"
+      ></lightning-button>
+      <lightning-button
+        variant="destructive"
+        label="Unsubscribe"
+        title="Unsubscribe"
+        onclick={handleUnsubscribe}
+        disabled={isUnsubscribeDisabled}
+        class="slds-m-left_x-small"
+      ></lightning-button>
+    </div>
+  </lightning-card>
+  <lightning-card title="Received Messages" icon-name="utility:engage">
+    <template for:each={receivedMessages} for:item="currentMessage" for:index="index">
+      <div class="slds-m-around_medium slds-border_bottom" key={currentMessage}>{currentMessage}</div>
+    </template>
+  </lightning-card>
+</template>
