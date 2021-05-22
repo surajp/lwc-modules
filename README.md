@@ -1,4 +1,4 @@
-# LWC Apex Services
+# LWC Apex Services :fire:
 
 A collection of LWC modules that aim to eliminate the need for writing Apex code for building any LWC, making it easier for JS devs to build components quicker on the Salesforce platform.
 
@@ -69,3 +69,5 @@ It contains modules for the following operations:
   ```
 
   [Example](examples/main/default/lwc/platformEventExample/).
+
+  This is still a work in progress :wrench:. Feedback and contributions welcome! :pray:
