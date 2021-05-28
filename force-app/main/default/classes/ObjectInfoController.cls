@@ -84,7 +84,7 @@ public inherited sharing class ObjectInfoController {
   @AuraEnabled(cacheable=true)
   public static String getFieldInfo(List<String> fieldNames) {
     List<String> objectNames = new List<String>();
-    Map<String, DescribeFieldResult> fieldDescribesMap = new Map<String, DescribeFieldResult>();
+    List<DescribeFieldResult> fieldDescribesList = new List<DescribeFieldResult>();
 
     for (String fieldName : fieldNames) {
       String originalFieldName = fieldName;
@@ -109,8 +109,8 @@ public inherited sharing class ObjectInfoController {
         .fields.getMap()
         .get(fieldName)
         .getDescribe();
-      fieldDescribesMap.put(originalFieldName, fieldDescribe);
+      fieldDescribesList.add(fieldDescribe);
     }
-    return JSON.serialize(fieldDescribesMap);
+    return JSON.serialize(fieldDescribesList);
   }
 }

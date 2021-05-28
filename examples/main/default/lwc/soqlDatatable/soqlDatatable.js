@@ -12,6 +12,8 @@ export default class SoqlDatatable extends LightningElement {
     return this.columns && this.columns.length > 0;
   }
 
+  getDatatableColumnsFromDescribeFieldResult(describe) {}
+
   async connectedCallback() {
     try {
       const query = "Select LastName,Account.Name,Email,Account.Owner.LastName from Contact";
@@ -22,7 +24,10 @@ export default class SoqlDatatable extends LightningElement {
         .map((f) => "Contact." + f);
       console.log("fieldnames", this.fieldNames);
       let result = await describeFieldInfo(this.fieldNames);
-      this.columns = this.fieldNames.map((f) => ({ label: result[f].label, fieldName: f.replace(/Contact\./g, "") }));
+      this.columns = result.map((field, index) => ({
+        label: field.label,
+        fieldName: this.fieldNames[index].replace(/Contact\./, "")
+      }));
       console.log("data", this.data);
     } catch (err) {
       console.error("An error ", err);
