@@ -5,6 +5,7 @@ A collection of LWC modules that aim to eliminate the need for writing Apex code
 It contains modules for the following operations:
 
 - SOQL
+
   Import `soqlService` into your lwc and issue queries directly from your lwc!
 
   ```js
@@ -16,6 +17,7 @@ It contains modules for the following operations:
   Refer to [soqlDataTable](examples/main/default/lwc/soqlDatatable/) example for details.
 
 - DML
+
   Import all exports from `dmlService` into your lwc and use `insert`,`update`,`upsert` and `del` operations as needed.
 
   ```js
@@ -46,7 +48,7 @@ It contains modules for the following operations:
   ```js
   import { describeFieldInfo } from "c/describeMetadataService";
         ...
-  // Retreive field describe info for multiple fields in a single call, including relationship fields
+  // Retrieve field describe info for multiple fields in a single call, including relationship fields
   describeFieldInfo(["Account.Name","Contact.Account.Parent.Industry"])
   .then(resp=>{
     // the resp has the shape of List<DescribeFieldResult>
