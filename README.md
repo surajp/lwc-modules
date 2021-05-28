@@ -1,6 +1,6 @@
 # LWC Apex Services :fire: :zap:
 
-A collection of LWC modules that aim to eliminate the need for writing Apex code for building any LWC, making it easier for JS devs to build components quicker on the Salesforce platform.
+A collection of LWC modules aimed at eliminating the need for writing Apex code for building LWCs, making it easier for JS devs to build components quicker on the Salesforce platform.
 
 It contains modules for the following operations:
 
