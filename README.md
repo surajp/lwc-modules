@@ -99,4 +99,8 @@ It contains modules for the following operations:
 
   [Example](examples/main/default/lwc/platformEventExample/).
 
-  This is still a work in progress :wrench:. Feedback and contributions welcome! :pray:
+## Considerations
+
+- These modules are relatively insecure and are meant for usage in internal apps only. In other words, they are not recommended to be used for LWCs in communities or public sites.
+
+- This is still a work in progress :wrench:. Feedback and contributions welcome! :pray:
