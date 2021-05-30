@@ -70,6 +70,8 @@ It contains modules for the following operations:
       let contact = JSON.parse((await apexCallout("callout:random_user/api")).body); //https://randomuser.me/
   ```
 
+  The full signature for this function is `apexCallout(endPoint,method,headers,body)`. `headers` and `body` expect JSON inputs
+
 - Calling Salesforce APIs within your org directly from the LWC (Requires CSP Trusted Sites and CORS setup)
 
   ```js
