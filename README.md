@@ -60,7 +60,32 @@ It contains modules for the following operations:
 
 - Callouts via Apex (using Named Creds, if available)
 
-- Calling Salesforce APIs directly from the client (Requires CSP and CORS setup)
+  Call APIs that don't support CORS or require authentication, via Apex using Named Credentials.
+
+  ```js
+
+      import apexCallout from "c/calloutService";
+        ...
+
+      let contact = JSON.parse((await apexCallout("callout:random_user/api")).body); //https://randomuser.me/
+  ```
+
+- Calling Salesforce APIs within your org directly from the LWC (Requires CSP Trusted Sites and CORS setup)
+
+  ```js
+  import sfapi from "c/apiService";
+      ...
+
+  // Calling Composite API for inserting multiple related records at once
+  let response = await sfapi(
+    "/composite/" /*path excluding base url*/,
+    "POST" /*method*/,
+    {} /* additional headers */,
+    JSON.stringify(compositeReq) /* request body */
+  );
+  ```
+
+  Refer to [compositeApiExample](examples/main/default/lwc/compositeApiExample/) for the full example.
 
 - Publish Platform Events
 
