@@ -1,7 +1,7 @@
 {
   "orgName": "PSB company",
   "edition": "Developer",
-  "features": [],
+  "features": ["PlatformCache"],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true

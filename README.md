@@ -99,6 +99,26 @@ It contains modules for the following operations:
 
   [Example](examples/main/default/lwc/platformEventExample/).
 
+- Interact with Platform Cache
+
+  ```js
+    import * as cache from "c/platformCacheService";
+    ...
+  // Add key-value pairs to cache
+  const cacheInputs = {};
+  cacheInputs[CACHE_KEY] = this.userInput;
+  cache.putAll(cacheInputs);
+
+  // Retrieve value from cache by key
+  try {
+    this.outputText = await cache.get(CACHE_KEY);
+  } catch (err) {
+    console.error(err);
+  }
+  ```
+
+  Refer to [platformEventExample](examples/main/default/lwc/platformCacheExample/) for the full example.
+
 ## Considerations
 
 - These modules are relatively insecure and are meant for usage in internal apps only. In other words, they are not recommended to be used for LWCs in communities or public sites.
