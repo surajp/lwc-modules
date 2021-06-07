@@ -26,17 +26,14 @@ public inherited sharing class ObjectInfoControllerTest {
     String fieldDescribeStrings = ObjectInfoController.getFieldInfo(
       new List<String>{ 'Account.Name', 'Contact.LastName', 'Contact.Account.Owner.Phone' }
     );
-    Map<String, FieldDescribeWrapper> fieldDesc = (Map<String, FieldDescribeWrapper>) JSON.deserialize(
+    List<FieldDescribeWrapper> fieldDesc = (List<FieldDescribeWrapper>) JSON.deserialize(
       fieldDescribeStrings,
-      Map<String, FieldDescribeWrapper>.class
+      List<FieldDescribeWrapper>.class
     );
-    System.assertEquals('Name', fieldDesc.get('Account.Name').name);
-    System.assertEquals(Schema.DisplayType.STRING.name().toLowerCase(), fieldDesc.get('Account.Name').type);
-    System.assertEquals('LastName', fieldDesc.get('Contact.LastName').name);
-    System.assertEquals('Phone', fieldDesc.get('Contact.Account.Owner.Phone').name);
-    System.assertEquals(
-      Schema.DisplayType.PHONE.name().toLowerCase(),
-      fieldDesc.get('Contact.Account.Owner.Phone').type
-    );
+    System.assertEquals('Name', fieldDesc[0].name);
+    System.assertEquals(Schema.DisplayType.STRING.name().toLowerCase(), fieldDesc[0].type);
+    System.assertEquals('LastName', fieldDesc[1].name);
+    System.assertEquals('Phone', fieldDesc[2].name);
+    System.assertEquals(Schema.DisplayType.PHONE.name().toLowerCase(), fieldDesc[2].type);
   }
 }

@@ -1,11 +1,58 @@
-import { LightningElement } from "lwc";
+import { LightningElement, wire } from "lwc";
 import sfapi from "c/apiService";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { reduceErrors, processCompositeApiResponse } from "c/utils";
+import { getObjectInfo } from "lightning/uiObjectInfoApi";
+import { describeSObjectInfo } from "c/describeMetadataService";
 
 export default class CompositeApiExample extends LightningElement {
   accts = [];
   cntcs = [];
+
+  acctFields = ["Name", "Rating", "NumberOfEmployees", "Industry"];
+  contactFields = ["FirstName", "LastName", "Email", "Title", "Phone"];
+  oppFields = ["Name", "StageName", "CloseDate", "Amount"];
+
+  @wire(getObjectInfo, { objectApiName: "Account" })
+  wireGetAccountInfo({ error, data }) {
+    if (!error && data) {
+      const childObjectApis = data.childRelationships.map((r) => r.childObjectApiName);
+      console.log("child object Api names", childObjectApis);
+      describeSObjectInfo(["Account", "Contact"])
+        .then((resp) => {
+          console.log(">> got child object info ", resp);
+        })
+        .catch((err) => {
+          console.error(">>> child errors ", reduceErrors(err));
+        });
+    } else if (error) {
+      this.dispatchEvent(new ShowToastEvent({ variant: "error", message: reduceErrors(error) }));
+    }
+  }
+
+  objectsAndFields = [
+    { objName: "Account", fields: this.acctFields },
+    { objName: "Contact", fields: this.contactFields },
+    { objName: "Opportunity", fields: this.oppFields }
+  ];
+
+  createFieldsJson(fields) {
+    return fields.reduce((obj, curr) => {
+      obj[curr.dataset.name] = curr.value;
+      return obj;
+    }, {});
+  }
+
+  newHandler(event) {
+    event.preventDefault();
+    const records = [...this.template.querySelectorAll("lightning-record-edit-form")];
+    records.forEach((rec) => {
+      const fields = [...rec.querySelectorAll("lightning-input-field")];
+      const newRecord = this.createFieldsJson(fields);
+      newRecord.referenceId = rec.dataset.name + "-" + this.guid();
+      this.compositeData.push(newRecord);
+    });
+  }
 
   handleClick(event) {
     event.preventDefault();

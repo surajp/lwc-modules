@@ -8,6 +8,8 @@ export default class DmlExample extends LightningElement {
       const acctName = this.template.querySelector("lightning-input.acct").value;
       const cntctLastName = this.template.querySelector("lightning-input.lastname").value;
       const cntctFirstName = this.template.querySelector("lightning-input.firstname").value;
+
+      // For 'insert' and 'upsert', specify the object name as the second param
       const acctId = (await dml.insert({ Name: acctName }, "Account"))[0];
       const cntctId = await dml.insert(
         { LastName: cntctLastName, FirstName: cntctFirstName, AccountId: acctId },

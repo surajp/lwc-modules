@@ -1,3 +1,18 @@
 <template>
-  <lightning-button label="Create Accounts and Contacts" onclick={handleClick}></lightning-button>
+  <template for:each={objectsAndFields} for:item="objAndField" for:index="index">
+    <lightning-record-edit-form
+      object-api-name={objAndField.objName}
+      key={objAndField.objName}
+      data-name={objAndField.objName}
+    >
+      <lightning-layout vertical-align="center">
+        <template for:each={objAndField.fields} for:item="field" for:index="index">
+          <lightning-layout-item alignment-bump="left" size="3" key={field}>
+            <lightning-input-field field-name={field}></lightning-input-field>
+          </lightning-layout-item>
+        </template>
+      </lightning-layout>
+    </lightning-record-edit-form>
+  </template>
+  <lightning-button label="Create Accounts and Contacts" onclick={newHandler}></lightning-button>
 </template>

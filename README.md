@@ -1,10 +1,11 @@
-# LWC Apex Services :fire:
+# LWC Apex Services :fire: :zap:
 
-A collection of LWC modules that aim to eliminate the need for writing Apex code for building any LWC, making it easier for JS devs to build components quicker on the Salesforce platform.
+A collection of LWC modules aimed at eliminating the need for writing Apex code for building LWCs, making it easier for JS devs to build components quicker on the Salesforce platform.
 
 It contains modules for the following operations:
 
 - SOQL
+
   Import `soqlService` into your lwc and issue queries directly from your lwc!
 
   ```js
@@ -16,6 +17,7 @@ It contains modules for the following operations:
   Refer to [soqlDataTable](examples/main/default/lwc/soqlDatatable/) example for details.
 
 - DML
+
   Import all exports from `dmlService` into your lwc and use `insert`,`update`,`upsert` and `del` operations as needed.
 
   ```js
@@ -46,7 +48,7 @@ It contains modules for the following operations:
   ```js
   import { describeFieldInfo } from "c/describeMetadataService";
         ...
-  // Retreive field describe info for multiple fields in a single call, including relationship fields
+  // Retrieve field describe info for multiple fields in a single call, including relationship fields
   describeFieldInfo(["Account.Name","Contact.Account.Parent.Industry"])
   .then(resp=>{
     // the resp has the shape of List<DescribeFieldResult>
@@ -58,7 +60,34 @@ It contains modules for the following operations:
 
 - Callouts via Apex (using Named Creds, if available)
 
-- Calling Salesforce APIs directly from the client (Requires CSP and CORS setup)
+  Call APIs that don't support CORS or require authentication, via Apex using Named Credentials.
+
+  ```js
+
+      import apexCallout from "c/calloutService";
+        ...
+
+      let contact = JSON.parse((await apexCallout("callout:random_user/api")).body); //https://randomuser.me/
+  ```
+
+  The full signature for this function is `apexCallout(endPoint,method,headers,body)`. `headers` and `body` expect JSON inputs
+
+- Calling Salesforce APIs within your org directly from the LWC (Requires CSP Trusted Sites and CORS setup)
+
+  ```js
+  import sfapi from "c/apiService";
+      ...
+
+  // Calling Composite API for inserting multiple related records at once
+  let response = await sfapi(
+    "/composite/" /*path excluding base url*/,
+    "POST" /*method*/,
+    {} /* additional headers */,
+    JSON.stringify(compositeReq) /* request body */
+  );
+  ```
+
+  Refer to [compositeApiExample](examples/main/default/lwc/compositeApiExample/) for the full example.
 
 - Publish Platform Events
 
@@ -70,4 +99,8 @@ It contains modules for the following operations:
 
   [Example](examples/main/default/lwc/platformEventExample/).
 
-  This is still a work in progress :wrench:. Feedback and contributions welcome! :pray:
+## Considerations
+
+- These modules are relatively insecure and are meant for usage in internal apps only. In other words, they are not recommended to be used for LWCs in communities or public sites.
+
+- This is still a work in progress :wrench:. Feedback and contributions welcome! :pray:
