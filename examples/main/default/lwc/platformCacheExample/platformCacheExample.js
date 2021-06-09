@@ -15,14 +15,12 @@ export default class PlatformCacheExample extends LightningElement {
   }
 
   handlePut() {
-    const cacheInputs = {};
-    cacheInputs[CACHE_KEY] = this.userInput;
-    cache.putAll(cacheInputs);
+    cache.session.put(CACHE_KEY, this.userInput);
   }
 
   async handleGet() {
     try {
-      this.outputText = await cache.get(CACHE_KEY);
+      this.outputText = await cache.session.get(CACHE_KEY);
     } catch (err) {
       console.error(err);
     }

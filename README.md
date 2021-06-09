@@ -105,13 +105,11 @@ It contains modules for the following operations:
     import * as cache from "c/platformCacheService";
     ...
   // Add key-value pairs to cache
-  const cacheInputs = {};
-  cacheInputs[CACHE_KEY] = this.userInput;
-  cache.putAll(cacheInputs);
+  cache.org.put(key,value);
 
   // Retrieve value from cache by key
   try {
-    this.outputText = await cache.get(CACHE_KEY);
+    this.outputText = await cache.org.get(key);
   } catch (err) {
     console.error(err);
   }

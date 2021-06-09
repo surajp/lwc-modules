@@ -1,22 +1,39 @@
-import saveToPlatformCache from "@salesforce/apex/PlatformCacheService.saveToPlatformCache";
-import retrieveFromPlatformCache from "@salesforce/apex/PlatformCacheService.retrieveFromPlatformCache";
-import removeFromPlatformCache from "@salesforce/apex/PlatformCacheService.removeFromPlatformCache";
+import saveToOrgCache from "@salesforce/apex/PlatformCacheService.saveToOrgCache";
+import retrieveFromOrgCache from "@salesforce/apex/PlatformCacheService.retrieveFromOrgCache";
+import removeFromOrgCache from "@salesforce/apex/PlatformCacheService.removeFromOrgCache";
+import saveToSessionCache from "@salesforce/apex/PlatformCacheService.saveToSessionCache";
+import retrieveFromSessionCache from "@salesforce/apex/PlatformCacheService.retrieveFromSessionCache";
+import removeFromSessionCache from "@salesforce/apex/PlatformCacheService.removeFromSessionCache";
 import isPlatformCacheEnabled from "@salesforce/apex/PlatformCacheService.isPlatformCacheEnabled";
 
-const putAll = async (objectsToCache) => {
-  return saveToPlatformCache({ keyValuePairsToCache: objectsToCache });
+const org = {
+  put: async (key, value) => {
+    return saveToOrgCache({ fullyQualifiedKey: key, value });
+  },
+
+  get: async (key) => {
+    return retrieveFromOrgCache({ fullyQualifiedKey: key });
+  },
+
+  remove: async (key) => {
+    return removeFromOrgCache({ fullyQualifiedKey: key });
+  }
 };
 
-const get = async (key) => {
-  return retrieveFromPlatformCache({ fullyQualifiedKeyName: key });
-};
+const session = {
+  put: async (key, value) => {
+    return saveToSessionCache({ fullyQualifiedKey: key, value });
+  },
 
-const remove = async (key) => {
-  return removeFromPlatformCache({ fullyQualifiedKeyName: key });
-};
+  get: async (key) => {
+    return retrieveFromSessionCache({ fullyQualifiedKey: key });
+  },
 
+  remove: async (key) => {
+    return removeFromSessionCache({ fullyQualifiedKey: key });
+  }
+};
 const isEnabled = async () => {
   return isPlatformCacheEnabled();
 };
-
-export { putAll, get, remove, isEnabled };
+export { org, session, isEnabled };
