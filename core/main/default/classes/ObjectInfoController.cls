@@ -8,6 +8,11 @@
 public inherited sharing class ObjectInfoController {
   private static Map<Schema.SObjectType, DescribeSObjectResult> objectDescribesMap = new Map<Schema.SObjectType, DescribeSObjectResult>();
 
+  /****
+   ** Returns JSON string of list of DescribSObjectResult for the given sobjects
+   ** @param sobjectNames list of api names of sobjects
+   ** @return JSON string of list of DescribSObjectResult for given sobjects
+   **/
   @AuraEnabled(cacheable=true)
   public static String getObjectInfo(List<String> sobjectNames) {
     List<Schema.SObjectType> sobjectTypes = getSObjectTypesFromNames(sobjectNames);
@@ -77,7 +82,7 @@ public inherited sharing class ObjectInfoController {
   }
 
   /****
-   ** @description Returns field describe information for a list of qualified field names (eg: Contact.Account.Name)
+   ** @description Returns field describe information for a list of qualified field names (eg: Contact.Account.Name) in the form of a JSON string
    ** @param fieldNames list of field names
    ** @return JSON string for list of field describe information for the specified fields
    **/

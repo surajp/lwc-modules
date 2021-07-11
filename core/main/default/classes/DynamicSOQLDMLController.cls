@@ -43,7 +43,7 @@ public with sharing class DynamicSOQLDMLController {
   }
 
   /**
-   * @description Execute a DML statement
+   * Execute a DML statement
    * @param operation 'Insert','Update' or 'Upsert'
    * @param strData The records to update, stringified
    * @param sObjectType The SObject type to perform the DML on

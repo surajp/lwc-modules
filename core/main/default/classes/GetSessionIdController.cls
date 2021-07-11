@@ -51,6 +51,10 @@ public with sharing class GetSessionIdController {
     return maxApiVersion;
   }
 
+  /****
+   ** Get Base Url for REST API for the current org
+   ** @return Base Url for REST API for the current org
+   **/
   @AuraEnabled(cacheable=true)
   public static String getRestAPIBaseUrl() {
     String currentMaxApiVersion = getCurrentMaxApiVersion();
