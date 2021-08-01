@@ -6,34 +6,52 @@ import retrieveFromSessionCache from "@salesforce/apex/PlatformCacheService.retr
 import removeFromSessionCache from "@salesforce/apex/PlatformCacheService.removeFromSessionCache";
 import isPlatformCacheEnabled from "@salesforce/apex/PlatformCacheService.isPlatformCacheEnabled";
 
+let cacheEnableCheckComplete = false,
+  isCacheEnabled = false;
+
+const isEnabled = async () => {
+  if (cacheEnableCheckComplete) return isCacheEnabled;
+  isCacheEnabled = await isPlatformCacheEnabled();
+  cacheEnableCheckComplete = true;
+  return isCacheEnabled;
+};
+
+const throwIfNotEnabled = async () => {
+  await isEnabled();
+  if (!isCacheEnabled) throw "Please enable Platform Cache to use this module";
+};
+
 const org = {
   put: async (key, value) => {
-    return saveToOrgCache({ fullyQualifiedKey: key, value });
+    await throwIfNotEnabled();
+    return saveToOrgCache({ cacheKey: key, value });
   },
 
   get: async (key) => {
-    return retrieveFromOrgCache({ fullyQualifiedKey: key });
+    await throwIfNotEnabled();
+    return retrieveFromOrgCache({ cacheKey: key });
   },
 
   remove: async (key) => {
-    return removeFromOrgCache({ fullyQualifiedKey: key });
+    await throwIfNotEnabled();
+    return removeFromOrgCache({ cacheKey: key });
   }
 };
 
 const session = {
   put: async (key, value) => {
-    return saveToSessionCache({ fullyQualifiedKey: key, value });
+    await throwIfNotEnabled();
+    return saveToSessionCache({ cacheKey: key, value });
   },
 
   get: async (key) => {
-    return retrieveFromSessionCache({ fullyQualifiedKey: key });
+    await throwIfNotEnabled();
+    return retrieveFromSessionCache({ cacheKey: key });
   },
 
   remove: async (key) => {
+    await throwIfNotEnabled();
     return removeFromSessionCache({ fullyQualifiedKey: key });
   }
-};
-const isEnabled = async () => {
-  return isPlatformCacheEnabled();
 };
 export { org, session, isEnabled };
