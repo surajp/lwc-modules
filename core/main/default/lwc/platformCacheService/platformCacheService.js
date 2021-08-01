@@ -51,7 +51,7 @@ const session = {
 
   remove: async (key) => {
     await throwIfNotEnabled();
-    return removeFromSessionCache({ fullyQualifiedKey: key });
+    return removeFromSessionCache({ cacheKey: key });
   }
 };
 export { org, session, isEnabled };
