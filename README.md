@@ -102,7 +102,7 @@ It contains modules for the following operations:
 - Interact with Platform Cache
 
   ```js
-    import * as cache from "c/platformCacheService";
+  import * as cache from "c/platformCacheService";
     ...
   // Add key-value pairs to cache
   cache.org.put(key,value);
@@ -115,7 +115,7 @@ It contains modules for the following operations:
   }
   ```
 
-  Refer to [platformEventExample](examples/main/default/lwc/platformCacheExample/) for the full example.
+  Refer to [platformCacheExample](examples/main/default/lwc/platformCacheExample/) for the full example.
 
 ## Considerations
 
