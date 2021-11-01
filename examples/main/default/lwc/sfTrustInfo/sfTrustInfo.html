@@ -1,0 +1,52 @@
+<template>
+  <h1>Upcoming Maintenances</h1>
+  <lightning-layout vertical-align="center" multiple-rows>
+    <lightning-layout-item alignment-bump="left" flexibility="auto" size="12" padding="around-small">
+      <lightning-card title="Release information" icon-name="standard:custom">
+        <dl class="slds-dl_horizontal slds-card__body_inner">
+          <dt class="slds-dl_horizontal__label">
+            <p class="slds-truncate" title="Instance">Instance:</p>
+          </dt>
+          <dd class="slds-dl_horizontal__detail slds-tile__meta">
+            <p class="slds-truncate" title={trustData.key}>{trustData.key}</p>
+          </dd>
+          <dt class="slds-dl_horizontal__label">
+            <p class="slds-truncate" title="Environment">Environment:</p>
+          </dt>
+          <dd class="slds-dl_horizontal__detail slds-tile__meta">
+            <p class="slds-truncate" title={trustData.environment}>{trustData.environment}</p>
+          </dd>
+          <dt class="slds-dl_horizontal__label">
+            <p class="slds-truncate" title="Release">Release</p>
+          </dt>
+          <dd class="slds-dl_horizontal__detail slds-tile__meta">
+            <p class="slds-truncate" title={trustData.releaseVersion}>{trustData.releaseVersion}</p>
+          </dd>
+        </dl>
+      </lightning-card>
+    </lightning-layout-item>
+    <template for:each={maintenances} for:item="maint" for:index="index">
+      <lightning-layout-item size="6" key={maint.id} padding="around-small">
+        <lightning-tile label={maint.name} class="lt-bg slds-p-around_small" href="javascript:void(0)" type="media">
+          <span slot="media">
+            <lightning-icon icon-name="standard:custom" alternative-text="Maintenance"> </lightning-icon>
+          </span>
+          <dl class="slds-dl_horizontal">
+            <dt class="slds-dl_horizontal__label">
+              <p class="slds-truncate" title="Planned Start Time">Planned Start Time</p>
+            </dt>
+            <dd class="slds-dl_horizontal__detail slds-tile__meta">
+              <p class="slds-truncate" title={trustData.releaseVersion}>{maint.plannedStartTime}</p>
+            </dd>
+            <dt class="slds-dl_horizontal__label">
+              <p class="slds-truncate" title="Planned Start Time">Planned End Time</p>
+            </dt>
+            <dd class="slds-dl_horizontal__detail slds-tile__meta">
+              <p class="slds-truncate" title={trustData.releaseVersion}>{maint.plannedEndTime}</p>
+            </dd>
+          </dl>
+        </lightning-tile>
+      </lightning-layout-item>
+    </template>
+  </lightning-layout>
+</template>

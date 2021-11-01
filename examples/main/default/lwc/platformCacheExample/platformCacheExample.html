@@ -1,0 +1,54 @@
+<template>
+  <lightning-layout horizontal-align="spread" multiple-rows pull-to-boundary="small" vertical-align="center">
+    <lightning-layout-item alignment-bump="left" flexibility="auto" size="12" padding="around-small">
+      <lightning-input label="Value to Cache" value={userInput} onchange={handleInputChange}></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item
+      alignment-bump="left"
+      flexibility="auto"
+      size="12"
+      large-device-size="12"
+      medium-device-size="12"
+      small-device-size="12"
+      padding="around-small"
+    >
+      <lightning-button label="Add to Cache" onclick={handlePut} variant="brand"></lightning-button>
+    </lightning-layout-item>
+    <lightning-layout-item
+      alignment-bump="left"
+      flexibility="auto"
+      size="12"
+      large-device-size="12"
+      medium-device-size="12"
+      small-device-size="12"
+      padding="around-small"
+    >
+      Value retrieved from cache: <span style="font-weight: bold">{outputText}</span>
+      <lightning-button-icon
+        icon-name="utility:refresh"
+        size="small"
+        variant="bare"
+        onclick={handleGet}
+        class="slds-p-left_x-small"
+      ></lightning-button-icon>
+    </lightning-layout-item>
+    <lightning-layout-item
+      alignment-bump="left"
+      flexibility="auto"
+      size="12"
+      large-device-size="12"
+      medium-device-size="12"
+      small-device-size="12"
+      padding="around-small"
+    >
+      <span>Test Cache Limit Exceeded Exception</span>
+      <lightning-button-icon
+        icon-name="utility:flow"
+        size="small"
+        variant="bare"
+        onclick={testDataSizeException}
+        class="slds-p-left_x-small"
+      ></lightning-button-icon>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

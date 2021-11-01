@@ -7,7 +7,7 @@
 **/
 public with sharing class APICallController {
   /**
-   * @description Given an endpoint, request params and headers, callout the api and return the response
+   * Given an endpoint, request params and headers, callout the api and return the response
    * @param endPoint The endpoint to callout to
    * @param method The http method to use
    * @param bodyStr The request body string.

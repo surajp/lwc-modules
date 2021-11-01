@@ -12,6 +12,9 @@ const flatten = (obj, delimiter, newobj, prefix) => {
 
 //source: https://github.com/tsalb/lwc-utils/blob/master/utils-core/main/default/lwc/utils/utils.js
 const reduceErrors = (errors) => {
+  if (typeof errors === "string") {
+    return [errors];
+  }
   if (!Array.isArray(errors)) {
     errors = [errors];
   }
