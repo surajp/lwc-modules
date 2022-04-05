@@ -1,0 +1,20 @@
+<template>
+  <lightning-card title="Profile Manager" icon-name="standard:account">
+    <lightning-input
+      class="slds-m-left_small slds-m-bottom_small"
+      label="Filter"
+      value={filter}
+      onchange={handleFilterUpdate}
+    ></lightning-input>
+    <lightning-datatable
+      key-field="Name"
+      columns={columns}
+      data={filteredData}
+      show-row-number-column
+      hide-checkbox-column
+      onsave={handleSave}
+      draft-values={draftValues}
+    >
+    </lightning-datatable>
+  </lightning-card>
+</template>
