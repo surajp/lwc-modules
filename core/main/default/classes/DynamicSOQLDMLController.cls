@@ -17,10 +17,40 @@ public with sharing class DynamicSOQLDMLController {
     return Database.query(query);
   }
 
+  /****
+   ** Executes a dynamic soql query with params. Supports upto 6 parameters, since this isn't a truly dynamic solution
+   ** @param query The query to be executed with placeholders for params. The placeholder is for the format '{{i}}' where 'i' is the position of the corresponding parameter in the accompanying parameters list
+   ** @param params The list of query parameters corresponding to placeholders in the accompanying query
+   ** @return The list of sobject rows retrieved by the query
+   **/
   @AuraEnabled
   public static SObject[] executeSoqlQueryWithParams(String query, List<Object> params) {
-    for (Integer i = 0; i < params.size(); i++) {
-      query = query.replaceAll('{{' + i + '}}', ':params[' + i + ']');
+    // This is hacky, but in the absence of a truly dynamic way to set variables, we don't have a lot of options
+    Object arg0, arg1, arg2, arg3, arg4, arg5;
+    for (Integer i = 0; i < Math.min(6, params.size()); i++) {
+      query = query.replace('{{' + i + '}}', ':arg' + i);
+      switch on i {
+        when 0 {
+          arg0 = params[0];
+        }
+        when 1 {
+          arg1 = params[1];
+        }
+        when 2 {
+          arg1 = params[2];
+        }
+        when 3 {
+          arg1 = params[3];
+        }
+        when 4 {
+          arg1 = params[4];
+        }
+        when 5 {
+          arg1 = params[5];
+        }
+        when else {
+        }
+      }
     }
     System.debug('>>qury ' + query);
     return Database.query(query);
