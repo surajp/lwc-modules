@@ -17,6 +17,15 @@ public with sharing class DynamicSOQLDMLController {
     return Database.query(query);
   }
 
+  @AuraEnabled
+  public static SObject[] executeSoqlQueryWithParams(String query, List<Object> params) {
+    for (Integer i = 0; i < params.size(); i++) {
+      query = query.replaceAll('{{' + i + '}}', ':params[' + i + ']');
+    }
+    System.debug('>>qury ' + query);
+    return Database.query(query);
+  }
+
   /**
    * Short Description
    * @param recordId Get the SObject Type given a record Id
