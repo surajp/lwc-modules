@@ -2,6 +2,7 @@ import { LightningElement } from "lwc";
 import sfapi from "c/apiService";
 import soql from "c/soqlService";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { describeFieldInfo } from "c/describeMetadataService";
 
 export default class ProfilesManager extends LightningElement {
   columns;
@@ -10,13 +11,53 @@ export default class ProfilesManager extends LightningElement {
   profileData = [];
   profileIdMap = {};
   filter = "";
+  _pageNum = 0;
+  _pageSize = 10;
+  _permLabelsMap;
   _query =
     "Select FIELDS(STANDARD) from Profile where Id in (Select ProfileId from PermissionSet where IsCustom=true ) and UserType='Standard' limit 15";
+
+  get _numPages() {
+    return Math.floor(this.filteredData.length / this._pageSize);
+  }
+
+  get _effectivePageNum() {
+    return Math.min(this._numPages, this._pageNum);
+  }
 
   get filteredData() {
     if (!this.filter) return this.data;
     const exp = this.filter.split(" ").map((f) => new RegExp(f, "i"));
-    return this.data.filter((d) => exp.every((e) => e.test(d.Name)));
+    return this.data.filter((d) => exp.every((e) => e.test(d.Label)));
+  }
+
+  get currentPageData() {
+    return this.filteredData.slice(
+      this._effectivePageNum * this._pageSize,
+      (this._effectivePageNum + 1) * this._pageSize
+    );
+  }
+
+  handleNext() {
+    if (!this.nextDisabled) {
+      this._pageNum = this._effectivePageNum;
+      this._pageNum++;
+    }
+  }
+
+  handlePrev() {
+    if (!this.prevDisabled) {
+      this._pageNum = this._effectivePageNum;
+      this._pageNum--;
+    }
+  }
+
+  get nextDisabled() {
+    return this._effectivePageNum >= this._numPages;
+  }
+
+  get prevDisabled() {
+    return this._effectivePageNum <= 0;
   }
 
   handleFilterUpdate(evt) {
@@ -36,15 +77,15 @@ export default class ProfilesManager extends LightningElement {
 
   _convertColumnsToRows() {
     const permNames = Object.keys(this.profileData[0]).filter((k) => k.startsWith("Permissions"));
-    this.data = permNames
-      .map((k) => {
-        let obj = { Name: k.replace(/^Permissions/, "") };
-        this.profileData.forEach((row) => {
-          obj[row.Name] = row[k];
-        });
-        return obj;
-      })
-      .sort((x, y) => x.Name > y.Name);
+    this.data = permNames.map((perm) => {
+      let obj = { Name: perm.replace(/^Permissions/, "") };
+      this.profileData.forEach((profile) => {
+        obj[profile.Name] = profile[perm];
+      });
+      return obj;
+    });
+    this.data.sort((x, y) => (x.Name > y.Name ? 1 : -1));
+    this.getPermissionLabels();
   }
 
   _transponseData() {
@@ -53,7 +94,7 @@ export default class ProfilesManager extends LightningElement {
   }
 
   async _fetchProfilesData() {
-    this.columns = [{ label: "Name", fieldName: "Name", initialWidth: 200 }];
+    this.columns = [{ label: "Name", fieldName: "Label", initialWidth: 200 }];
     this.profileData = await soql(this._query);
     this._createMapOfProfileIdByName();
     this._transponseData();
@@ -122,5 +163,18 @@ export default class ProfilesManager extends LightningElement {
       )
       .join("\n");
     return errors;
+  }
+
+  getPermissionLabels() {
+    let permFields = this.data.map((d) => "Profile.Permissions" + d.Name);
+    describeFieldInfo(permFields).then((resp) => {
+      this._permLabelsMap = resp.reduce((obj, desc) => {
+        obj[desc.name] = desc.label;
+        return obj;
+      }, {});
+      console.log(this._permLabelsMap);
+      this.data.forEach((d) => (d.Label = this._permLabelsMap["Permissions" + d.Name]));
+      this.data = [...this.data];
+    });
   }
 }
