@@ -54,9 +54,13 @@ export default class ProfilesManager extends LightningElement {
 
   async _fetchProfilesData() {
     this.columns = [{ label: "Name", fieldName: "Name", initialWidth: 200 }];
-    this.profileData = await soql(this._query);
-    this._createMapOfProfileIdByName();
-    this._transponseData();
+    try {
+      this.profileData = await soql(this._query);
+      this._createMapOfProfileIdByName();
+      this._transponseData();
+    } catch (err) {
+      this.dispatchEvent(new ShowToastEvent({ variant: "error", message: "soql failed " + err.body.message }));
+    }
   }
 
   connectedCallback() {
