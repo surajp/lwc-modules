@@ -2,7 +2,8 @@
   <lightning-card title="Profile Manager" icon-name="standard:account">
     <lightning-input
       class="slds-m-left_small slds-m-bottom_small"
-      label="Filter"
+      label="Search Permissions"
+      type="search"
       value={filter}
       onchange={handleFilterUpdate}
     ></lightning-input>
@@ -14,6 +15,7 @@
       hide-checkbox-column
       onsave={handleSave}
       draft-values={draftValues}
+      errors={tableErrors}
     >
     </lightning-datatable>
     <lightning-layout horizontal-align="spread" pull-to-boundary="small" vertical-align="center">
