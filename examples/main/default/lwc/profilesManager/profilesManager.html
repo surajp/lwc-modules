@@ -9,12 +9,36 @@
     <lightning-datatable
       key-field="Name"
       columns={columns}
-      data={filteredData}
+      data={currentPageData}
       show-row-number-column
       hide-checkbox-column
       onsave={handleSave}
       draft-values={draftValues}
     >
     </lightning-datatable>
+    <lightning-layout horizontal-align="spread" pull-to-boundary="small" vertical-align="center">
+      <lightning-layout-item
+        alignment-bump="left"
+        flexibility="auto"
+        size="4"
+        large-device-size="4"
+        medium-device-size="4"
+        small-device-size="4"
+        padding="around-small"
+      >
+        <lightning-button label="Prev" onclick={handlePrev} disabled={prevDisabled}></lightning-button>
+      </lightning-layout-item>
+      <lightning-layout-item
+        alignment-bump="left"
+        flexibility="auto"
+        size="4"
+        large-device-size="4"
+        medium-device-size="4"
+        small-device-size="4"
+        padding="around-small"
+      >
+        <lightning-button label="Next" onclick={handleNext} disabled={nextDisabled}></lightning-button>
+      </lightning-layout-item>
+    </lightning-layout>
   </lightning-card>
 </template>
